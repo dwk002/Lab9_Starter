@@ -86,7 +86,14 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "9a94c164942b475f901dad8b5612de35"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -95,13 +102,130 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+      tryout(firstNum, secondNum);
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
+    const label = "Everything below is now under my control now, Mwuahahahaa"
     // Start your code here
+    // 1. Console Log
+    errorBtns[0].addEventListener('click', function() {
+      console.log("James's Console Log");
+    });
+    // 2. Console Error
+    errorBtns[1].addEventListener('click', function() {
+      console.error("I'm sorry, Dave. I'm afraid I can't do that.... lol");
+    });
+    // 3. console Count
+    errorBtns[2].addEventListener('click', function() {
+      console.count("You really clicked this many times?");
+    });
+    // 4. Console Warn
+    errorBtns[3].addEventListener('click', function() {
+      console.warn("Nuclear Launch detected!");
+    });
+    // 5. Console Assert
+    errorBtns[4].addEventListener('click', function() {
+      let Q = 19;
+      const A = 21;
+      let reason = 'That aint 9 +10';
+      console.assert(Q==A, {Q, A, reason});
+    });
+    // 6. Console Clear
+    errorBtns[5].addEventListener('click', function() {
+      console.clear();
+    });
+    // 7. Console Dir
+    errorBtns[6].addEventListener('click', function() {
+      console.dir(errorBtns[6]);
+    });
+    // 8. Console dirxml
+    errorBtns[7].addEventListener('click', function() {
+      console.dirxml(errorBtns[7]);
+    });
+    // 9. Console Group Start
+    errorBtns[8].addEventListener('click', function() {
+      console.group(label);
+    });
+    // 10. Console Group End
+    errorBtns[9].addEventListener('click', function() {
+      console.groupEnd(label);
+    });
+    // 11. Console Table 
+    errorBtns[10].addEventListener('click', function() {
+      console.table([
+      {
+        first: 'James',
+        last: 'Max',
+      },
+      {
+        first: 'ChaKeri',
+        last: 'South',
+        birthday: '20101112',
+      },
+      {
+        first: 'Yoshi',
+        last: 'Mario',
+      }
+    ]);
+    });
+    // 12. Start Timer
+    errorBtns[11].addEventListener('click', function() {
+      //I don't even watch Jojo lmao;;
+      console.time("ZA WORLDD");
+    });
+    // 13. End Timer
+    errorBtns[12].addEventListener('click', function() {
+      console.timeEnd("ZA WORLDD");
+    });
+    // 14. Console Trace
+    errorBtns[13].addEventListener('click', function() {
+      const firstFunc = () => { secondFunc(); };
+      const secondFunc = () => { thirdFunc(); };
+      const thirdFunc = () => { fourthFunc(); };
+      const fourthFunc = () => { console.trace(); };
+      firstFunc();
+    });
+    // 15. Trigger a Global Error
+    errorBtns[14].addEventListener('click', function() {
+      const dont = 3;
+      dont = 4;
+      
+    });
+    
     // You may move this JS to another file if you wish
+
+    //Step 3 & 4. Try and Catch if user inputs non-number!
+    class TypeMisMatchErrBro extends Error {
+    constructor(message) {
+      super(message);
+      this.name = "TypeMisMatchErrBro";
+    }
+    }
+    function tryout(a, b){
+      try {
+        String.prototype.isNumber = function(){return /^\d+$/.test(this);}
+        if (!a.isNumber()) {
+          throw new TypeMisMatchErrBro("a isn't a number!"); // (*)
+        } else if (!b.isNumber()){
+          throw new SyntaxError("b isn't a number"); 
+        }
+        console.log('a: ' + a + ' and b: ' + b);
+      } catch (err) {
+        console.error( err.name + ': ' + err.message ); 
+      } finally {
+        console.log('input calculation attempted');
+      }
+    }
+    //tryout();
+
+    //Step 5
+    window.onerror = function() {
+      console.log("Oops, a global error occured mate.");
+    };
+    TrackJS.track('Testing TrackJS!');
+                        
   </script>
 </body>
 
